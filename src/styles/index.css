@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+html {
+  height: -webkit-fill-available;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-image: url("../assets/imgs/naruto_game_4k_hd.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
