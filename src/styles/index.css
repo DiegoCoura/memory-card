@@ -1,3 +1,8 @@
+@font-face {
+  font-family: narutoFont;
+  src: url(/src/assets/fonts/njnaruto.ttf);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -15,4 +20,14 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  min-width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;  
+  color: #f1f1f1;
+  font-family: narutoFont, "Poppins", sans-serif;
+  text-decoration: none;
 }

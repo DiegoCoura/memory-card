@@ -1,9 +1,8 @@
+import ScoreBoard from "./components/ScoreBoard";
 
 function App() {
   return <>
-    <div>
-      Hello World!
-    </div>
+    <ScoreBoard />
   </>;
 }
 
