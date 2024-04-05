@@ -12,6 +12,7 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [characters, setCharacters] = useState([]);
+  const [availableCharacters, setAvailableCharacters] = useState([]);
   const [charactersToDisplay, setCharactersToDisplay] = useState([]);
   const [gameOn, setGameOn] = useState(false);
   const [clickedCards, setClickedCards] = useState([]);
@@ -34,20 +35,42 @@ function App() {
     fetchCharacters();
   }, []);
 
+  useEffect(() => {
+    const removeCharactersUnavailable = async () => {
+      try {
+        const cleanedUpArr = [];
+        const responseCharacters = characters;
+        for (const character of responseCharacters) {
+          const bannerAvailable = await fetch(character.images[0]);
+          if (bannerAvailable.ok) {
+            const currCard = {
+              id: character.id,
+              name: character.name,
+              banner: character.images[0],
+            };
+            cleanedUpArr.push(currCard);
+          }
+        }
+        setAvailableCharacters(cleanedUpArr);
+      } catch (error) {
+        setError(error);
+        console.log(error);
+      }
+    };
+
+    removeCharactersUnavailable();
+  }, [characters]);
+
   const shuffle = () => {
     const shuffledCardsIndexes = [];
     const shuffledCards = [];
 
     while (shuffledCardsIndexes.length < 4) {
-      let randomNumber = Math.floor(Math.random() * characters.length);
+      let randomNumber = Math.floor(Math.random() * availableCharacters.length);
       if (!shuffledCardsIndexes.includes(randomNumber)) {
         shuffledCardsIndexes.push(randomNumber);
-        const currCard = {
-          id: characters[randomNumber].id,
-          name: characters[randomNumber].name,
-          banner: characters[randomNumber].images[0],
-        };
-        shuffledCards.push(currCard);
+
+        shuffledCards.push(availableCharacters[randomNumber]);
       }
     }
 
