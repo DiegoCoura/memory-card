@@ -4,12 +4,7 @@ import { useEffect } from "react";
 import Board from "./components/Board";
 import Card from "./components/Card";
 
-// const mockCards = {
-//   id: 0,
-//   name: "Naruto",
-//   img: "foto",
-// };
-const URL = "https://narutodb.xyz/api/character?page=1&limit=8";
+const baseURL = "https://dattebayo-api.onrender.com/characters";
 
 //create a shuffle function that will use the id (and Math.floor(Math.random) * arr.length)
 
@@ -25,11 +20,12 @@ function App() {
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
-        const response = await fetch(URL);
+        const response = await fetch(baseURL);
         const responseJSON = await response.json();
         setCharacters(responseJSON.characters);
       } catch (error) {
         setError(error);
+        console.log(error);
       } finally {
         setIsLoading(false);
       }
@@ -42,14 +38,19 @@ function App() {
     const shuffledCardsIndexes = [];
     const shuffledCards = [];
 
-    while (shuffledCardsIndexes.length < 5) {
+    while (shuffledCardsIndexes.length < 4) {
       let randomNumber = Math.floor(Math.random() * characters.length);
-      console.log(randomNumber);
       if (!shuffledCardsIndexes.includes(randomNumber)) {
         shuffledCardsIndexes.push(randomNumber);
-        shuffledCards.push(characters[randomNumber]);
+        const currCard = {
+          id: characters[randomNumber].id,
+          name: characters[randomNumber].name,
+          banner: characters[randomNumber].images[0],
+        };
+        shuffledCards.push(currCard);
       }
     }
+
     return shuffledCards;
   };
 
@@ -61,6 +62,8 @@ function App() {
     } else {
       setClickedCards([...clickedCards, cardId]);
       setScore(score + 1);
+      const shuffledCards = shuffle();
+      setCharactersToDisplay(shuffledCards);
     }
   };
 
