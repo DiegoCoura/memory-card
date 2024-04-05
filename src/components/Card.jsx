@@ -1,7 +1,7 @@
-export default function Card ({ character }) {
+export default function Card ({ id, character, onClick }) {
     return (
         <>
-            <div className="card">            
+            <div id={id} className="card" onClick={onClick}>            
                 <img src={character.images[0]}></img>
                 <h3>{character.name}</h3>
             </div>
