@@ -2,12 +2,21 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: black;
+    background: #c53918;
+    box-shadow: 2px 13px 13px black;
     padding: 20px;
     gap: 1rem;
     border-radius: 15px;
+    cursor: pointer;
+    transition: ease-out .2s;
 }
 
 .card img{
     width: 200px;
+    border: 1px solid #100802;
+    border-radius: 8px;
+}
+
+.card:hover{
+    transform: scale(1.05);
 }

@@ -1,21 +1,19 @@
 .scoreboard {
-  width: 250px;
-  height: 250px;
-  padding: 48px 58px;
+  width: 150px;
+  padding: 48px 18px;
   color: black;
-  font-size: 1.1rem;
+  font-size: 1.125rem;
   position: absolute;
   right: 20px;
   top: 20px;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .scoreboard-bg {
   position: absolute;
   z-index: -1;
-  transform: rotate(-90deg);
   width: 100%;
   left: 0;
   top: 0;

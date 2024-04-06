@@ -3,6 +3,8 @@ import ScoreBoard from "./components/ScoreBoard";
 import { useEffect } from "react";
 import Board from "./components/Board";
 import Card from "./components/Card";
+import StartGame from "./components/StartGame";
+
 
 const baseURL = "https://dattebayo-api.onrender.com/characters";
 
@@ -17,6 +19,8 @@ function App() {
   const [gameOn, setGameOn] = useState(false);
   const [clickedCards, setClickedCards] = useState([]);
   const [score, setScore] = useState(0);
+  const [topScore, setTopScore] = useState(0);
+
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -54,7 +58,6 @@ function App() {
         setAvailableCharacters(cleanedUpArr);
       } catch (error) {
         setError(error);
-        console.log(error);
       }
     };
 
@@ -74,17 +77,35 @@ function App() {
       }
     }
 
+    const shuffledIds = shuffledCards.map((card) => card.id);
+
+    const noFreeOptions = (arr, target) =>
+      target.every((id) => arr.includes(id));
+    if (noFreeOptions(clickedCards, shuffledIds) === true) {
+      return shuffle();
+    }
+
+
     return shuffledCards;
+  };
+
+  const resetGame = () => {
+    setScore(0);
+    setGameOn(false);
+    setClickedCards([]);
   };
 
   const handleClick = (e) => {
     const cardId = e.target.closest(".card").id;
-
+    
     if (clickedCards.includes(cardId)) {
-      setScore(0);
+      resetGame();
     } else {
       setClickedCards([...clickedCards, cardId]);
       setScore(score + 1);
+      if (score >= topScore) {
+        setTopScore(score + 1);
+      }
       const shuffledCards = shuffle();
       setCharactersToDisplay(shuffledCards);
     }
@@ -100,7 +121,7 @@ function App() {
     <>
       {gameOn && (
         <>
-          <ScoreBoard />
+          <ScoreBoard currScore={score} topScore={topScore} />
 
           <Board>
             {charactersToDisplay.map((character) => {
@@ -116,7 +137,7 @@ function App() {
           </Board>
         </>
       )}
-      {!gameOn && <button onClick={startGame}>Começa porra</button>}
+      {!gameOn && <StartGame startGame={startGame}/>}
     </>
   );
 }
