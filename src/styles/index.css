@@ -31,3 +31,24 @@ body {
   font-family: narutoFont, "Poppins", sans-serif;
   text-decoration: none;
 }
+
+.toggle-bg-song {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 6px;
+  border: 1px solid black;
+  background: #f87d23;
+  transition: ease-in 0.2s;
+}
+
+.toggle-bg-song:hover {
+  transform: scale(1.1);
+}
+
+.play-icon {
+  width: 40px;
+  height: 40px;
+}

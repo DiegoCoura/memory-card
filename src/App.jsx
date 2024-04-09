@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import ScoreBoard from "./components/ScoreBoard";
-import { useEffect } from "react";
 import Board from "./components/Board";
 import Card from "./components/Card";
-import StartGame from "./components/StartGame";
+import backgroundSong from "/sounds/battle-song.mp3";
+import muteIcon from "./assets/imgs/mute.png";
+import playIcon from "./assets/imgs/play.png";
+import StartPage from "./components/StartPage";
 
 const baseURL = "https://dattebayo-api.onrender.com/characters";
 
@@ -18,6 +20,8 @@ function App() {
   const [topScore, setTopScore] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
+  const [playSong, setPlaySong] = useState(false);
+  const bgSongRef = useRef(null);
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -92,7 +96,7 @@ function App() {
       if (score >= topScore) {
         setTopScore(score + 1);
       }
-      if (score === charactersToDisplay.length) {
+      if (score === availableCharacters.length) {
         console.log("You win");
       }
       const shuffledCards = shuffle();
@@ -114,9 +118,20 @@ function App() {
     setGameOn(true);
   };
 
+  const toggleBgSong = () => {
+    if (playSong) {
+      bgSongRef.current?.pause();
+      setPlaySong(false);
+    } else {
+      bgSongRef.current?.play();
+      bgSongRef.current.volume = 0.3;
+      setPlaySong(true);
+    }
+  };
+
   return (
     <>
-      {(gameOn && (
+      {gameOn ? (
         <>
           <ScoreBoard currScore={score} topScore={topScore} />
 
@@ -134,7 +149,21 @@ function App() {
             })}
           </Board>
         </>
-      )) || <StartGame startGame={startGame} />}
+      ) : (
+        <>
+          <StartPage startGame={startGame} />{" "}
+        </>
+      )}
+
+      <button onClick={toggleBgSong} type="button" className="toggle-bg-song">
+        {!playSong ? (
+          <img src={muteIcon} className="play-icon" />
+        ) : (
+          <img src={playIcon} className="play-icon" />
+        )}
+      </button>
+
+      <audio ref={bgSongRef} loop src={backgroundSong} />
     </>
   );
 }
