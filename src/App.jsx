@@ -5,10 +5,7 @@ import Board from "./components/Board";
 import Card from "./components/Card";
 import StartGame from "./components/StartGame";
 
-
 const baseURL = "https://dattebayo-api.onrender.com/characters";
-
-//create a shuffle function that will use the id (and Math.floor(Math.random) * arr.length)
 
 function App() {
   const [error, setError] = useState(null);
@@ -20,7 +17,8 @@ function App() {
   const [clickedCards, setClickedCards] = useState([]);
   const [score, setScore] = useState(0);
   const [topScore, setTopScore] = useState(0);
-
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -85,7 +83,6 @@ function App() {
       return shuffle();
     }
 
-
     return shuffledCards;
   };
 
@@ -96,8 +93,11 @@ function App() {
   };
 
   const handleClick = (e) => {
+    setIsClicked(true);
+    if (isClicked) return;
+
     const cardId = e.target.closest(".card").id;
-    
+
     if (clickedCards.includes(cardId)) {
       resetGame();
     } else {
@@ -107,8 +107,16 @@ function App() {
         setTopScore(score + 1);
       }
       const shuffledCards = shuffle();
-      setCharactersToDisplay(shuffledCards);
+      setTimeout(() => {
+        setCharactersToDisplay(shuffledCards);
+      }, 800);
     }
+
+    setIsFlipped(true);
+    setTimeout(() => {
+      setIsFlipped(false);
+      setIsClicked(false);
+    }, 1300);
   };
 
   const startGame = () => {
@@ -119,7 +127,7 @@ function App() {
 
   return (
     <>
-      {gameOn && (
+      {(gameOn && (
         <>
           <ScoreBoard currScore={score} topScore={topScore} />
 
@@ -131,13 +139,13 @@ function App() {
                   id={character.id}
                   character={character}
                   onClick={handleClick}
+                  isFlipped={isFlipped}
                 />
               );
             })}
           </Board>
         </>
-      )}
-      {!gameOn && <StartGame startGame={startGame}/>}
+      )) || <StartGame startGame={startGame} />}
     </>
   );
 }
