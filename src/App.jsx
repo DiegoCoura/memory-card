@@ -10,7 +10,6 @@ const baseURL = "https://dattebayo-api.onrender.com/characters";
 function App() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [characters, setCharacters] = useState([]);
   const [availableCharacters, setAvailableCharacters] = useState([]);
   const [charactersToDisplay, setCharactersToDisplay] = useState([]);
   const [gameOn, setGameOn] = useState(false);
@@ -23,9 +22,21 @@ function App() {
   useEffect(() => {
     const fetchCharacters = async () => {
       try {
+        const onlyAvailableBanners = [];
         const response = await fetch(baseURL);
         const responseJSON = await response.json();
-        setCharacters(responseJSON.characters);
+        for (const character of responseJSON.characters) {
+          const bannerAvailable = await fetch(character.images[0]);
+          if (bannerAvailable.ok) {
+            const currCard = {
+              id: character.id,
+              name: character.name,
+              banner: character.images[0],
+            };
+            onlyAvailableBanners.push(currCard);
+          }
+        }
+        setAvailableCharacters(onlyAvailableBanners);
       } catch (error) {
         setError(error);
         console.log(error);
@@ -36,31 +47,6 @@ function App() {
 
     fetchCharacters();
   }, []);
-
-  useEffect(() => {
-    const removeCharactersUnavailable = async () => {
-      try {
-        const cleanedUpArr = [];
-        const responseCharacters = characters;
-        for (const character of responseCharacters) {
-          const bannerAvailable = await fetch(character.images[0]);
-          if (bannerAvailable.ok) {
-            const currCard = {
-              id: character.id,
-              name: character.name,
-              banner: character.images[0],
-            };
-            cleanedUpArr.push(currCard);
-          }
-        }
-        setAvailableCharacters(cleanedUpArr);
-      } catch (error) {
-        setError(error);
-      }
-    };
-
-    removeCharactersUnavailable();
-  }, [characters]);
 
   const shuffle = () => {
     const shuffledCardsIndexes = [];
@@ -105,6 +91,9 @@ function App() {
       setScore(score + 1);
       if (score >= topScore) {
         setTopScore(score + 1);
+      }
+      if (score === charactersToDisplay.length) {
+        console.log("You win");
       }
       const shuffledCards = shuffle();
       setTimeout(() => {

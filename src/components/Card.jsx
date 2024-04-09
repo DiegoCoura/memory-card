@@ -9,7 +9,7 @@ export default function Card({ id, character, onClick, isFlipped }) {
     >
       <div className="flipper">
         <div className="front">
-          <img src={character.banner}></img>
+          <img src={character.banner} alt={`${character.name} image`}></img>
           <h3>{character.name}</h3>
         </div>
         <div className="back"></div>
