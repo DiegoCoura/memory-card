@@ -30,6 +30,11 @@
   gap: 15px;
 }
 
+.naruto-container {
+  display: flex;
+  padding-left: 24px;
+}
+
 .start-button:hover {
   transform: scale(1.05);
 }
