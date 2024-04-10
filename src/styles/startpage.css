@@ -1,4 +1,4 @@
-.start-game {
+.start-page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,11 +28,19 @@
   display: flex;
   align-items: flex-end;
   gap: 15px;
+  margin-top: 1rem;
 }
 
 .naruto-container {
   display: flex;
-  padding-left: 24px;
+}
+
+.naruto-icon{
+  width: 150px;
+}
+
+.mad-naruto{
+  height: 300px;
 }
 
 .start-button:hover {

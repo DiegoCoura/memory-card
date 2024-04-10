@@ -6,6 +6,7 @@ import backgroundSong from "/sounds/battle-song.mp3";
 import muteIcon from "./assets/imgs/mute.png";
 import playIcon from "./assets/imgs/play.png";
 import StartPage from "./components/StartPage";
+import ErrorPage from "./components/ErrorPage";
 
 const baseURL = "https://dattebayo-api.onrender.com/characters";
 
@@ -22,6 +23,7 @@ function App() {
   const [isClicked, setIsClicked] = useState(false);
   const [playSong, setPlaySong] = useState(false);
   const bgSongRef = useRef(null);
+  const [gameStatus, setGameStatus] = useState("");
 
   useEffect(() => {
     const fetchCharacters = async () => {
@@ -69,7 +71,8 @@ function App() {
 
     const noFreeOptions = (arr, target) =>
       target.every((id) => arr.includes(id));
-    if (noFreeOptions(clickedCards, shuffledIds) === true) {
+
+    while (noFreeOptions(clickedCards, shuffledIds)) {
       return shuffle();
     }
 
@@ -86,19 +89,23 @@ function App() {
     setIsClicked(true);
     if (isClicked) return;
 
-    const cardId = e.target.closest(".card").id;
+    const cardId = Number(e.target.closest(".card").id);
 
     if (clickedCards.includes(cardId)) {
       resetGame();
+      setGameStatus("lose");
     } else {
       setClickedCards([...clickedCards, cardId]);
       setScore(score + 1);
+
       if (score >= topScore) {
         setTopScore(score + 1);
       }
-      if (score === availableCharacters.length) {
-        console.log("You win");
+      if (score + 1 === availableCharacters.length) {
+        resetGame();
+        setGameStatus("win");
       }
+
       const shuffledCards = shuffle();
       setTimeout(() => {
         setCharactersToDisplay(shuffledCards);
@@ -113,6 +120,7 @@ function App() {
   };
 
   const startGame = () => {
+    setGameStatus("");
     const shuffledCards = shuffle();
     setCharactersToDisplay(shuffledCards);
     setGameOn(true);
@@ -131,6 +139,8 @@ function App() {
 
   return (
     <>
+      {error && <ErrorPage />}
+
       {gameOn ? (
         <>
           <ScoreBoard currScore={score} topScore={topScore} />
@@ -151,7 +161,7 @@ function App() {
         </>
       ) : (
         <>
-          <StartPage startGame={startGame} />{" "}
+          <StartPage startGame={startGame} gameStatus={gameStatus} />{" "}
         </>
       )}
 
