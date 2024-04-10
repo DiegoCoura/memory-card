@@ -99,7 +99,7 @@ function App() {
       if (score >= topScore) {
         setTopScore(score + 1);
       }
-      if (score + 1 === availableCharacters.length) {
+      if (score + 1 === 12) {
         resetGame();
         setGameStatus("win");
       }
@@ -138,22 +138,22 @@ function App() {
   return (
     <>
       {error && <ErrorPage />}
-
-      {gameOn ? (
-        <>
-          <GamePage
-            currScore={score}
-            topScore={topScore}
-            charactersToDisplay={charactersToDisplay}
-            onClick={handleClick}
-            isFlipped={isFlipped}
-          />
-        </>
-      ) : (
-        <>
-          <StartPage startGame={startGame} gameStatus={gameStatus} />{" "}
-        </>
-      )}
+      {(isLoading && <h1>Loading...</h1>) ||
+        (gameOn && !isLoading ? (
+          <>
+            <GamePage
+              currScore={score}
+              topScore={topScore}
+              charactersToDisplay={charactersToDisplay}
+              onClick={handleClick}
+              isFlipped={isFlipped}
+            />
+          </>
+        ) : (
+          <>
+            <StartPage startGame={startGame} gameStatus={gameStatus} />{" "}
+          </>
+        ))}
 
       <button onClick={toggleBgSong} type="button" className="toggle-bg-song">
         {!playSong ? (
