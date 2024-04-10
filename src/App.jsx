@@ -1,12 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-import ScoreBoard from "./components/ScoreBoard";
-import Board from "./components/Board";
-import Card from "./components/Card";
 import backgroundSong from "/sounds/battle-song.mp3";
 import muteIcon from "./assets/imgs/mute.png";
 import playIcon from "./assets/imgs/play.png";
 import StartPage from "./components/StartPage";
 import ErrorPage from "./components/ErrorPage";
+import GamePage from "./components/GamePage";
 
 const baseURL = "https://dattebayo-api.onrender.com/characters";
 
@@ -27,8 +25,8 @@ function App() {
 
   useEffect(() => {
     const fetchCharacters = async () => {
+      const onlyAvailableBanners = [];
       try {
-        const onlyAvailableBanners = [];
         const response = await fetch(baseURL);
         const responseJSON = await response.json();
         for (const character of responseJSON.characters) {
@@ -143,21 +141,13 @@ function App() {
 
       {gameOn ? (
         <>
-          <ScoreBoard currScore={score} topScore={topScore} />
-
-          <Board>
-            {charactersToDisplay.map((character) => {
-              return (
-                <Card
-                  key={character.id}
-                  id={character.id}
-                  character={character}
-                  onClick={handleClick}
-                  isFlipped={isFlipped}
-                />
-              );
-            })}
-          </Board>
+          <GamePage
+            currScore={score}
+            topScore={topScore}
+            charactersToDisplay={charactersToDisplay}
+            onClick={handleClick}
+            isFlipped={isFlipped}
+          />
         </>
       ) : (
         <>
