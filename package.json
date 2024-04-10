@@ -2,7 +2,7 @@
   "name": "memory-card",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://diegocoura.github.io/memory-card/",
+  "homepage": "https://diegocoura.github.io/memory-card",
   "type": "module",
   "scripts": {
     "dev": "vite",
