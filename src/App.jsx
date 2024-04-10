@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import backgroundSong from "/sounds/battle-song.mp3";
+import backgroundSong from "./assets/sounds/battle-song.mp3";
 import muteIcon from "./assets/imgs/mute.png";
 import playIcon from "./assets/imgs/play.png";
 import StartPage from "./components/StartPage";

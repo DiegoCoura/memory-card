@@ -1,10 +1,18 @@
-# React + Vite
+# Naruto memory card
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This game is awesome for memory, you have to choose cards that wasn't clicked in previous turns.
 
-Currently, two official plugins are available:
+If you want, turn the background song off by clicking the up left button.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Outcome
+- Used React
+- fetching data from API
+- React Hooks
+- CSS
 
-- API - https://api-dattebayo.vercel.app/
+### API - https://api-dattebayo.vercel.app/
+
+<img src="./src/assets/imgs/project-ss1.png"/>
+<img src="./src/assets/imgs/project-ss2.png"/>
+
+### [Linkedin](https://www.linkedin.com/in/diego-coura-18b88317b/)
